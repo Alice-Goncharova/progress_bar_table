@@ -1,0 +1,75 @@
+<div class="container">
+  <header>
+    <h1>Online TV Analytics Dashboard</h1>
+    <p class="subtitle">
+      Churn rate and spending by Online TV subscription
+    </p>
+  </header>
+
+  <div class="dashboard-stats">
+    <div class="stat-card">
+      <div class="stat-value">{{ clients.length }}</div>
+      <div class="stat-label">Total Clients</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{{round multiply churn_rate 100 1}}%</div>
+      <div class="stat-label">Overall Churn Rate</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">${{ round avg_monthly_spending 2 }}</div>
+      <div class="stat-label">Avg Monthly Spend</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{{ max_period }} mos</div>
+      <div class="stat-label">Max Subscription</div>
+    </div>
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Has Online TV</th>
+          <th>% Churn</th>
+          <th>Avg Monthly Spend</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#if online_tv_stats.length}}
+          {{#each online_tv_stats}}
+            <tr>
+              <td>
+                <span class="online-tv-badge online-tv-{{#if (eq this.has_online_tv '1')}}yes{{else}}no{{/if}}">
+                  {{ this.label }}
+                </span>
+                <small>({{ this.count }} clients)</small>
+              </td>
+              <td>
+                <span class="percentage-value">{{ round this.churn_percent 1 }}%</span>
+                <div class="progress-container">
+                  <div class="progress-bar churn-bar" style="width: {{ this.churn_percent }}%">
+                    {{ round this.churn_percent 1 }}%
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="spend-value">${{ round this.avg_spend 2 }}</span>
+                <div class="progress-container">
+                  <div class="progress-bar spend-bar" style="width: {{multiply (divide this.avg_spend ../max_spend) 100}}%">
+                    ${{ round this.avg_spend 2 }}
+                  </div>
+                </div>
+              </td>
+            </tr>
+          {{/each}}
+        {{else}}
+          <tr>
+            <td colspan="3" class="no-data">
+              No data available or error loading data
+            </td>
+          </tr>
+        {{/if}}
+      </tbody>
+    </table>
+  </div>
+</div>
