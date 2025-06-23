@@ -4,8 +4,8 @@
 Можно встроить HTML-шаблон в Superset Dashboard с помощью HTML-чарты и движка шаблонов Handlebars.
 
 ✅ Как внедрить:
-Создайте Dataset в Superset на основе своей таблицы (.csv или подключение к БД).
-
+Создайте Dataset в Superset на основе своей таблицы.
+Создайте необходимые меры и добавьте их в визуализацию.
 Вставьте адаптированный HTML-шаблон из проекта.
 
 Замените переменные Jinja на Handlebars (пример ниже).
@@ -15,7 +15,7 @@
 <div class="stat-value">{{ data.length }}</div> <!-- вместо {{ clients|length }} -->
 
 {{#each data}}
-  <td>{{this.churn_percent}}</td>
+  <td>{{churn_percent}}</td>
 {{/each}}
 
 
